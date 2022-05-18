@@ -1,0 +1,127 @@
+<section class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-md-3 mt-2">
+    <img *ngIf="owner.photo" [src]="owner.photo" class="img-fluid rounded-circle border border border-white shadow-lg p-0 mb-5 bg-body rounded mx-auto d-block" alt="...">
+      <h3>{{owner.name}}</h3>
+      <p>{{owner.position.name}}</p>
+      <p>{{owner.ubication}}</p>
+    </div>
+    <div class="col-12 col-md-9">
+      <div class="row mt-5">
+        <div class="col-10 col-md-11">
+        <h1>Acerca de</h1>
+        </div>
+        <div class="col-2 col-md-1 text-center">
+        <a *ngIf="userLoged" (click)="openModal()" href="javascript:;" class="ps-md-0">
+          <i class="fas fa-pen"></i>
+        </a>
+        </div>
+        <div class="col-12 col-md-9">
+      <p [innerHTML]="owner.about | nl2br"></p>
+       </div>  
+      </div>
+    </div>
+  </div>  
+  <hr>
+</section>
+
+<!-- Ventana Modal -->
+<div class="modal fade" tabindex="-1" id="acercaDeModal">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="acercaDeModalLabel">Datos Personales</h5>
+        <button type="button" class="btn-close" (click)="close()"></button>
+      </div>
+      <div class="modal-body">
+      <form [formGroup]="formDatosPersonales" (submit)="saveChange()">
+        <div class="container-fluid">
+          <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <button class="nav-link active" id="nav-personales-tab" data-bs-toggle="tab" data-bs-target="#datosPersonales" type="button" role="tab" aria-controls="nav-personales" aria-selected="true">Datos Personales</button>
+
+              <button class="nav-link" id="nav-acercaDe-tab" data-bs-toggle="tab" data-bs-target="#acercaDe" type="button" role="tab" aria-controls="nav-acercaDe" aria-selected="false">Acerca de</button>
+
+              <button class="nav-link" id="nav-redes-tab" data-bs-toggle="tab" data-bs-target="#redes" type="button" role="tab" aria-controls="nav-redes" aria-selected="false">Redes Sociales</button>
+
+            </div>
+          </nav>
+          <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="datosPersonales" role="tabpanel" aria-labelledby="datosPersonales">
+              <div class="row pt-1">
+                <div class="col-12 col-md-6">
+                  <label for="name" class="form-label">Nombre</label>
+                  <input class="form-control" type="text" id="name" formControlName= "name" placeholder="Nombre">
+                  <label for="actualPosition" class="form-label">Titulo</label>
+                  <select class="form-control form-select" type="text" id="actualPosition" formControlName= "actualPosition" placeholder="Titulo">
+                    <option *ngFor="let position of positionList" [value]="position.id">
+                      {{position.name}}
+                    </option>
+                  </select>
+                  <label for="ubicationCountry" class="form-label">País</label>
+                  <select class="form-control form-select" type="text" id="ubicationCountry" formControlName= "ubicationCountry" placeholder="País" (change)="onSelectCountry(formDatosPersonales.value.ubicationCountry)">
+                    <option *ngFor="let country of countryList" [value]="country.id">
+                      {{country.name}}
+                    </option>
+                  </select>
+
+                  <label for="ubicationState" class="form-label">Provincia</label>
+                  <select class="form-control form-select" type="text" id="ubicationState" formControlName= "ubicationState" placeholder="Provincia" (change)="onSelectState(formDatosPersonales.value.ubicationState)">
+                    <option *ngFor="let state of stateList" [value]="state.id">
+                      {{state.name}}
+                    </option>
+                  </select>
+
+                  <label for="ubicationCity" class="form-label">Ciudad</label>
+                  <select class="form-control form-select" type="text" id="ubicationCity" formControlName= "ubicationCity" placeholder="Ciudad">
+                    <option *ngFor="let city of cityList" [value]="city.id">
+                      {{city.name}}
+                    </option>
+                  </select>
+
+                
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <div class="row">
+                    <label for="photo" class="form-label">Foto</label>
+                    <input class="form-control" type="text" id="photo" formControlName= "photo" placeholder="Foto">
+                  </div>
+                  <div class="row d-flex justify-content-center aling-items-center">
+                    <img [src]="formDatosPersonales.value.photo" alt="foto" class="w-75">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="acercaDe" role="tabpanel" aria-labelledby="acercaDe">
+              <div class="row col-12">
+                <textarea class="mt-4 mb-2 form-control" type="text" id="about" formControlName= "about" placeholder="Reseña" rows="6"> </textarea>
+              </div>
+            </div>
+
+            <div class="tab-pane fade" id="redes" role="tabpanel" aria-labelledby="redes">
+              <div class="row pt-1">
+                <div class="col-12">
+                  <label for="facebook" class="form-label">Facebook</label>
+                  <input class="form-control" type="text" id="facebook" formControlName= "facebook" placeholder="Facebook">
+                  <label for="name" class="form-label">Instagram</label>
+                  <input class="form-control" type="text" id="instagram" formControlName= "instagram" placeholder="Instagram">
+                  <label for="name" class="form-label">Twitter</label>
+                  <input class="form-control" type="text" id="twitter" formControlName= "twitter" placeholder="Twitter">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      </div>
+      <div class="modal-footer">
+          <div class="row col-10 mx-auto">
+            <button type="button" class="btn btn-outline-info mb-1" (click)="close()">Cancelar</button>
+             <button type="button" class="btn btn-outline-info" (click)="saveChange()" [disabled]="formDatosPersonales.invalid">Guardar</button> 
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

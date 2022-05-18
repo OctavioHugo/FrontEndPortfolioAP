@@ -1,0 +1,90 @@
+<section class="container-fluid">
+  <div class="row">
+    <div class="col-10">
+      <h1 class="ps-md-4">Educación</h1>
+    </div>
+    <div class="col-2 text-center">
+      <a *ngIf="userLoged" href="javascript:;" (click)="newItem()">
+      <i class="fas fa-plus ms-md-2 ps-md-5"></i>
+      </a>
+    </div>
+  </div>
+
+  <div *ngFor="let education of educationList" class="row">
+    <div class="col-4 col-md-3">
+      <img *ngIf="education.institution.logo" [src]="education.institution.logo" class="w-logo" alt="Logo">
+    </div>
+    <div class="col-8 col-md-9">
+      <div class="row">
+      <div class="col-9 col-md-10">
+        <h2 class="fs-4">{{education.institution.name}}</h2>
+      </div>
+      <div class="col-3 col-md-2 text-center d-flex justify-content-around">
+        <a *ngIf="userLoged" href="javascript:;" (click)="updateElement(education)"> 
+          <i class="fas fa-pen"></i>
+        </a>
+        <a *ngIf="userLoged" href="javascript:;" (click)="deletElement(education.id)">
+          <i class="fas fa-trash-alt"></i>
+        </a>
+      </div>
+    </div>
+    <div>
+      <p>{{education.title.name}} <br>
+      {{education.start}} - {{education.end}}
+      </p>
+    </div>
+    </div>
+  </div>
+  <hr>
+</section>
+
+<div class="modal fade" tabindex="-1" id="educacionModal">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="educationModalLabel">Educación</h5>
+        <button type="button" class="btn-close" (click)="close()"></button>
+      </div>
+      <div class="modal-body">
+      <form [formGroup]="formEducation" (submit)="save()">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <label for="institution" class="form-label">Institución</label>
+              <select class="form-control form-select" id="institution" formControlName= "institution" (change)="onSelectInstitution(formEducation.value.institution)">
+                <option *ngFor="let institution of institutionList" [value]="institution.id">{{institution.name}}</option>
+              </select>
+              <label for="title" class="form-label">Titulo</label>
+              <select class="form-control form-select" id="title" formControlName= "title">
+                <option *ngFor="let title of titleList" [value]="title.id">{{title.name}}</option>
+              </select>
+
+              <div class="row">
+                <div class="col-6">
+                  <label for="start" class="form-label">Inicio</label>
+                  <input class="form-control" type="text" id="startEducation" formControlName="start" placeholder="Inicio de formacion">
+                </div>
+                <div class="col-6">
+                  <label for="end" class="form-label">Final</label>
+                  <input class="form-control" type="text" id="endEducation" formControlName="end" placeholder="Final de formacion">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 d-flex justify-content-center aling-items-center">
+              <img *ngIf="formEducation.value.logo" [src]="formEducation.value.logo" alt="foto" class="w-75">
+            </div>
+          </div>
+        </div>
+          <!-- agregar cosmetica de los botones -->
+      </form>
+      </div>
+      <div class="modal-footer">
+          <div class="row col-10 mx-auto">
+              <button type="button" class="btn btn-outline-info mb-1" (click)="close()">Cancelar</button>
+             <button type="button" class="btn btn-outline-info" (click)="save()" [disabled]="formEducation.invalid">Guardar</button> 
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+
+<section class="container-fluid">
+  <div class="row">
+    <div class="col-10 col-md-11">
+      <h2>Habilidades</h2>
+    </div>
+    <div class="col-2 col-md-1 text-center">
+      <a *ngIf="userLoged" href="javascript:;" (click)="newItem()">
+        <i class="fas fa-plus"></i>
+      </a>
+    </div>
+  </div>
+<div *ngFor="let skill of skillList"> 
+  <div class="row">
+    <div class="col-10 col-md-11">
+      <h2 class="fs-4">{{skill.name}}</h2>
+    </div>
+    <div class="col-2 col-md-1 text-center text-center d-flex justify-content-around">
+      <a *ngIf="userLoged" href="javascript:;" (click)="updateElement(skill)"> 
+        <i class="fas fa-pen"></i>
+      </a>
+      <a *ngIf="userLoged" href="javascript:;" (click)="deletElement(skill.id)">
+        <i class="fas fa-trash-alt"></i>
+      </a>
+    </div>
+  </div> 
+  <div class="row">
+    <div class="col-10 col-md-11 ">
+      <div class="progress">
+        <div class="progress-bar progress-bar-striped progress-bar-animated w-{{skill.progress}}" role="progressbar" aria-valuemin="0" aria-valuemax="100">{{skill.progress}}%</div>
+      </div> 
+    </div>
+  </div>
+</div>
+<hr>
+</section>
+
+<!-- Ventana Modal -->
+<div class="modal fade" tabindex="-1" id="skillModal">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Habilidades</h5>
+        <button type="button" class="btn-close" (click)="close()"></button>
+      </div>
+      <div class="modal-body">
+      <form [formGroup]="formSkill" (submit)="save()">
+          <!-- agregar cosmetica de los botones -->
+          <label for="name" class="form-label">Habilidad</label>
+          <input class="form-control" type="text" id="nameSkill" formControlName= "name" placeholder="Habilidad">
+          <label for="progress" class="form-label">Avance: {{formSkill.value.progress}}%</label>
+          <input class="form-range" type="range" id="progress" formControlName= "progress" step="25"> 
+      </form>
+      </div>
+      <div class="modal-footer">
+          <div class="row col-10 mx-auto">
+              <button type="button" class="btn btn-outline-info mb-1" (click)="close()">Cancelar</button> 
+              <button type="button" class="btn btn-outline-info" (click)="save()" [disabled]="formSkill.invalid">Guardar</button>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,135 @@
+<section class="container-fluid">
+  <div class="row">
+    <div class="col-10">
+      <h1 class="ps-md-4">Experiencia</h1>
+    </div>
+    <div class="col-2 text-center">
+      <a *ngIf="userLoged" href="javascript:;" (click)="newItem()">
+      <i class="fas fa-plus ms-md-2 ps-md-5"></i>
+      </a>
+    </div>
+  </div>
+
+  <div *ngFor="let experience of experienceList" class="row">
+    <div class="col-4 col-md-3">
+      <img *ngIf="experience.company.logo" [src]="experience.company.logo" class="w-logo" alt="Logo de empresa">
+    </div>
+
+    <div class="col-8 col-md-9">
+      <div class="row">
+      <div class="col-9 col-md-10">
+        <h2 class="fs-4">{{experience.position.name}}</h2>
+      </div>
+      <div class="col-3 col-md-2 text-center d-flex justify-content-around" >
+        <a *ngIf="userLoged" href="javascript:;" class="" (click)="updateElement(experience)"> 
+          <i class="fas fa-pen"></i>
+        </a>
+        <a *ngIf="userLoged" href="javascript:;" (click)="deletElement(experience.id)">
+          <i class="fas fa-trash-alt"></i>
+        </a>
+      </div>
+    </div>
+
+    <div>
+      <p>{{experience.company.name}} - {{experience.mode.name}} <br>
+      {{experience.start}} - {{experience.end}}: {{experience.duration}}
+      </p>
+      <div class="row">
+        <div class="col-11 col-md-4">
+          {{experience.description}}
+        </div>
+      </div>
+    </div> 
+    </div>
+  </div>
+  <hr>
+</section>
+
+<div class="modal fade" tabindex="-1" id="experienciaModal">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="experienciaModalLabel">Experiencia</h5>
+        <button type="button" class="btn-close" (click)="close()"></button>
+      </div>
+      <div class="modal-body">
+      <form [formGroup]="formExperiencia" (submit)="save()">
+        <div class="container-fluid">
+
+          <nav>
+            <div class="nav nav-tabs" id="nav-tab-exp" role="tablist">
+              
+              <button class="nav-link active" id="nav-edg-tab" data-bs-toggle="tab" data-bs-target="#DatosExperiencia" type="button" role="tab" aria-controls="nav-edg" aria-selected="true">Datos Generales</button>
+
+              <button class="nav-link" id="nav-ed-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab" aria-controls="nav-ed" aria-selected="false">Descripción</button>
+            
+            </div>
+          </nav>
+
+          <div class="tab-content" id="nav-tabContentExp">
+            <div class="tab-pane fade show active" id="DatosExperiencia" role="tabpanel" aria-labelledby="datosExperiencia">
+
+              <div class="row">
+                <div class="col-12 col-md-6">
+                  <label for="position" class="form-label">Posición</label>
+                  <select class="form-control form-select" type="text" id="position" formControlName= "position">
+                    <option *ngFor="let position of positionList" [value]="position.id">
+                      {{position.name}}
+                    </option> 
+                  </select>
+
+                  <label for="company" class="form-label">Empresa</label>
+                  <select class="form-control form-select" id="company" formControlName= "company" (change)="onSelectCompany(formExperiencia.value.company)">
+                    <option *ngFor="let company of companyList" [value]="company.id">
+                      {{company.name}}
+                    </option>  
+                  </select>
+
+                  <label for="mode" class="form-label">Modalidad</label>
+                  <select class="form-control form-select"  id="mode" formControlName= "mode" > 
+                    <option *ngFor="let mode of modeList" [value]="mode.id">
+                      {{mode.name}}
+                    </option>
+                  </select>
+
+                  <div class="row">
+                    <div class="col-6">
+                      <label for="start" class="form-label">Desde</label>
+                      <input class="form-control" type="text" id="start" formControlName= "start" placeholder="Desde">
+                    </div>
+
+                    <div class="col-6">
+                      <label for="end" class="form-label">Hasta</label>
+                      <input class="form-control" type="text" id="end" formControlName= "end" placeholder="Hasta">
+                    </div>
+                  </div>
+
+                  <label for="duration" class="form-label">Duración en el puesto</label>
+                  <input class="form-control" type="text" id="duration" formControlName= "duration" placeholder="Duración">
+                </div>
+
+                <div class="col-12 col-md-6 d-flex justify-content-center aling-items-center">
+                  <img *ngIf="formExperiencia.value.logo" [src]="formExperiencia.value.logo" alt="logo" class="w-75">
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="description" role="tabpanel" aria-labelledby="description">
+              <div class="row col-12">
+                <textarea class="mt-4 mb-2 form-control" type="text" id="description" formControlName="description" placeholder="Descripción" rows="5"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+          <!-- agregar cosmetica de los botones -->
+      </form>
+
+      </div>
+      <div class="modal-footer">
+          <div class="row col-10 mx-auto">
+              <button type="button" class="btn btn-outline-info mb-1" (click)="close()">Cancelar</button>
+              <button type="button" class="btn btn-outline-info" (click)="save()" [disabled]="formExperiencia.invalid">Guardar</button>
+          </div>  
+      </div>
+    </div>
+  </div>
+</div>

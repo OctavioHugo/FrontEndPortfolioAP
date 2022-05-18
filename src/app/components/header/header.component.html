@@ -1,0 +1,82 @@
+<header>    
+    <div class="d-flex align-items-top">    
+        <div class="container-fluid">
+            <nav class="row justify-content-between align-items-center">
+                <a class="col-12 col-md-auto text-reset text-center mb-md-0" href="#">
+                    <img src="../assets/img/APLogo-20-20.png" alt="Logo Argentina Programa" class="logoHeader">
+                    #YoProgramo
+                </a>
+                <ul class="col-12 col-md-2 list-unstyled">
+                    <li class="d-flex justify-content-between mt-3 ">
+                        <a *ngIf="socialNetworks" [href]="socialNetworks.facebook" class="text-reset" target="_blank">
+                            <i class="fab fa-facebook fa-lg pt-3"></i>
+                        </a>
+                        <a *ngIf="socialNetworks" [href]="socialNetworks.instagram" class="text-reset" target="_blank">
+                            <i class="fab fa-instagram fa-lg pt-3"></i>
+                        </a> 
+                        <a *ngIf="socialNetworks" [href]="socialNetworks.twitter" class="text-reset" target="_blank">
+                            <i class="fab fa-twitter fa-lg pt-3"></i>
+                        </a> 
+
+                        <button type="button" class="btn btn-outline-dark" (click)="open()">{{buttonText}}</button>
+                            
+                    </li>
+                </ul> 
+            </nav>     
+        </div>
+        
+    </div>
+    <div class="img-wrapper">
+       <img src="../assets/img/triangles-g6f79797f5_1280.png" class="img-fluid" alt="Responsive image">
+       <div class="img-overlay">
+           <a *ngIf="userLoged" href="javascript:;">
+               <i class="fas fa-pen"></i>
+           </a>
+       </div>
+    </div>
+</header>
+
+<!-- Ventana Modal -->
+<div class="modal fade" tabindex="-1" id="login">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="">Login</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+        <form [formGroup]="formLogin" (submit)="login()">
+            <!-- agregar cosmetica de los botones -->
+            <input class="form-control mt-3" type="text" id="email" formControlName= "email" placeholder="email">
+            <div *ngIf="Email?.errors && Email?.touched">
+                <p *ngIf="Email?.hasError('required')" class="text-danger">
+                    Debe ingresar un email
+                </p>
+                <p *ngIf="Email?.hasError('email')" class="text-danger">
+                    Debe ingresar un formato de email valido
+                </p>
+            </div>
+            <input class="form-control mt-3 mb-3" type="password" id="password" formControlName= "password" placeholder="password"> 
+            <div *ngIf="Password?.errors && Password?.touched">
+                <p *ngIf="Password?.hasError('required')" class="text-danger">
+                    Ingrese su contraseña
+                </p>
+                <p *ngIf="Password?.hasError('minlength')" class="text-danger">
+                    La contraseña debe contener al menos 6 caracteres
+                </p>
+            </div>
+        </form>
+        <div>
+           <!--  agregar cosmetica -->
+            <p *ngIf="loginFail" class="text-center">Usuario y/o contraseña incorrecto</p>
+        </div>
+        </div>
+        <div class="modal-footer">
+            <div class="row col-10 mx-auto">
+               <button type="button" class="btn btn-outline-info" (click)="login()" [disabled]="formLogin.invalid">Login</button> 
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
